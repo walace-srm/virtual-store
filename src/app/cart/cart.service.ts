@@ -1,50 +1,95 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
-
-import { Product } from '../products/product';
+import { Injectable, computed, signal } from '@angular/core';
 import { CartItem } from './cart-item';
+import { Product } from '../products/product';
+import { collection, doc, Firestore, setDoc, deleteDoc, collectionData } from '@angular/fire/firestore';
+import { inject } from '@angular/core';
+import { Auth, User, onAuthStateChanged } from '@angular/fire/auth';
+import { Subscription } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class CartService {
+  private firestore = inject(Firestore);
+  private auth = inject(Auth);
 
+  private cartSubscription?: Subscription;
+
+  user = signal<User | null>(null);
   cartItems = signal<CartItem[]>([]);
 
-  cartCount = computed(() => this.cartItems().reduce((acc, curr) => acc + curr.quantity, 0));
+  constructor() {
+    onAuthStateChanged(this.auth, (user) => {
+      this.user.set(user);
 
-  cartSubTotal = computed(() => this.cartItems().reduce((acc, curr) => acc + (curr.quantity * curr.product.price), 0));
+      // 👉 Cancela escuta antiga
+      this.cartSubscription?.unsubscribe();
 
-  // calculate tax of 8% on top of the subtotal
-  cartTax = computed(() => this.cartSubTotal() * 0.08);
+      if (user) {
+        this.loadCartFromFirebase();
+      } else {
+        this.clearLocalCart(); // também limpa o estado local
+      }
+    });
+  }
 
-  cartTotal = computed(() => this.cartSubTotal() + this.cartTax());
+  private get userId() {
+    return this.user()?.uid ?? 'anon';
+  }
 
-  e = effect(() => console.log('cartCount updated', this.cartCount()));
-  i = effect(() => console.log('cartItems updated', this.cartItems()));
+  private cartCollection() {
+    return collection(this.firestore, `carts/${this.userId}/items`);
+  }
 
+  private getItemDoc(id: string) {
+    return doc(this.firestore, `carts/${this.userId}/items/${id}`);
+  }
+
+  loadCartFromFirebase() {
+    this.cartSubscription = collectionData(this.cartCollection(), { idField: 'id' }).subscribe((items: any) => {
+      this.cartItems.set(items);
+    });
+  }
 
   addProduct(product: Product): void {
-    const indexFound = this.cartItems().findIndex((p) => p.product.id === product.id);
-    if (indexFound >= 0) {
-      const cartItem = this.cartItems()[indexFound];
-      cartItem.quantity += 1;
-      this.updateCartQuantity(cartItem);
-      //this.cartItems.mutate((items) => items[indexFound].quantity += 1);
-    } else {
-      //this.cartItems.mutate((items) => items.push({ product, quantity: 1 }));
-      this.cartItems.update((items) => [...items, { product, quantity: 1 }]);
-    }
+    const user = this.user();
+    if (!user) return;
+
+    const indexFound = this.cartItems().findIndex(p => p.product.id === product.id);
+    const item = this.cartItems().find(p => p.product.id === product.id);
+
+    const updatedItem: CartItem = indexFound >= 0
+      ? { product, quantity: (item?.quantity || 0) + 1 }
+      : { product, quantity: 1 };
+
+    setDoc(this.getItemDoc(product.id), updatedItem);
   }
 
   updateCartQuantity(cartItem: CartItem): void {
-    const indexFound = this.cartItems().findIndex((p) => p.product.id === cartItem.product.id);
-    if (indexFound >= 0) {
-      this.cartItems.update((items) => items.map((p) => p.product.id === cartItem.product.id ? cartItem : p));
-    }
+    const user = this.user();
+    if (!user) return;
+
+    setDoc(this.getItemDoc(cartItem.product.id), cartItem);
   }
 
   removeProduct(product: Product): void {
-    this.cartItems.update((items) => items.filter((p) => p.product.id !== product.id));
+    const user = this.user();
+    if (!user) return;
+
+    deleteDoc(this.getItemDoc(product.id));
   }
 
+  clearLocalCart() {
+    this.cartItems.set([]);
+    this.cartSubscription?.unsubscribe(); // 👈 para de escutar Firebase
+  }
+
+  cartCount = computed(() =>
+    this.cartItems().reduce((acc, curr) => acc + curr.quantity, 0)
+  );
+
+  cartSubTotal = computed(() =>
+    this.cartItems().reduce((acc, curr) => acc + curr.quantity * curr.product.price, 0)
+  );
+
+  cartTax = computed(() => this.cartSubTotal() * 0.08);
+  cartTotal = computed(() => this.cartSubTotal() + this.cartTax());
 }

@@ -9,7 +9,7 @@ import { CartService } from '../cart.service';
     selector: 'app-cart-list',
     templateUrl: './cart-list.component.html',
     styleUrls: ['./cart-list.component.scss'],
-    imports: [MatCardModule, CartItemComponent, AsyncPipe]
+    imports: [MatCardModule, CartItemComponent]
 })
 export class CartListComponent {
 

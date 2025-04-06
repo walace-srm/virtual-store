@@ -38,3 +38,17 @@ mat-toolbar {
 .example-spacer {
   flex: 1 1 auto;
 }
+
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+mat-toolbar {
+  height: 64px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

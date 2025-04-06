@@ -35,8 +35,8 @@ $angular-shop-theme: mat.m2-define-light-theme((
 @include mat.all-component-themes($angular-shop-theme);
 
 /* You can add global styles to this file, and also import other style files */
-$foreground: map-get($angular-shop-theme, foreground);
-$background: map-get($angular-shop-theme, background);
+//$foreground: map-get($angular-shop-theme, foreground);
+//$background: map-get($angular-shop-theme, background);
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -57,4 +57,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 .mat-text-primary {
   color: #673AB7 !important;
+}
+
+body {
+  padding-top: 64px;
 }

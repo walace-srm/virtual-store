@@ -1,8 +1,19 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 
 export const APP_ROUTES: Routes = [
   {
-    path: '', pathMatch: 'full', redirectTo: 'products'
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./auth/auth/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: 'signup',
+    loadComponent: () => import('./auth/signup/signup.component').then(c => c.SignupComponent)
   },
   {
     path: 'products',
@@ -10,6 +21,11 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: 'cart',
-    loadComponent: () => import('./cart/cart/cart.component').then(c => c.CartComponent)
+    loadComponent: () => import('./cart/cart/cart.component').then(c => c.CartComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: '**',
+    redirectTo: 'products'
   }
 ];

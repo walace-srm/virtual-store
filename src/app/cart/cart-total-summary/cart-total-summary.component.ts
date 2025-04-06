@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card';
     selector: 'app-cart-total-summary',
     templateUrl: './cart-total-summary.component.html',
     styleUrls: ['./cart-total-summary.component.scss'],
-    imports: [MatCardModule, MatButtonModule, AsyncPipe, CurrencyPipe]
+    imports: [MatCardModule, MatButtonModule, CurrencyPipe]
 })
 export class CartTotalSummaryComponent {
 

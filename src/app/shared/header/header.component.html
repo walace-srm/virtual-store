@@ -1,18 +1,39 @@
 <mat-toolbar class="main-header" color="primary">
-  <button mat-icon-button [routerLink]="['/']">
-    <mat-icon>local_cafe</mat-icon>
+  <button mat-icon-button [routerLink]="['/products']">
+    <mat-icon>dry_cleaning</mat-icon>
   </button>
-  <div class="branding">Angular Coffee Shop</div>
+
+  <div class="branding">Loja virtual</div>
   <span class="example-spacer"></span>
-  <button mat-icon-button [routerLink]="['/products/new']">
-    <mat-icon>add</mat-icon>
-  </button>
+
+  @if (isAdmin) {
+    <button mat-icon-button [routerLink]="['/products/new']">
+      <mat-icon>add</mat-icon>
+    </button>
+  }
+
   <button mat-icon-button [routerLink]="['/cart']">
     <mat-icon>shopping_cart</mat-icon>
     @if (cartCount(); as count) {
-<span class="notification-label">{{
-      count > 0 ? count : ""
-    }}</span>
-}
+      <span class="notification-label">{{ count > 0 ? count : '' }}</span>
+    }
   </button>
+
+  <!-- Avatar e logout -->
+  @if (user(); as u) {
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item disabled>
+        <mat-icon>person</mat-icon>
+        <span>{{ displayName() }}</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Sair</span>
+      </button>
+    </mat-menu>
+  }
 </mat-toolbar>

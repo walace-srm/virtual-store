@@ -1,93 +1,101 @@
-import { Location } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatOptionModule } from '@angular/material/core';
+import { Component } from '@angular/core';
+import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Location, NgFor, NgIf } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Product } from '../product';
+import { ProductService } from 'src/app/services/products/producs.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { Product } from '../product';
-import { ProductsService } from '../products.service';
-import { FormUtilsService } from './../../shared/form/form-utils.service';
-
 @Component({
-    selector: 'app-product-form',
-    templateUrl: './product-form.component.html',
-    styleUrls: ['./product-form.component.scss'],
-    imports: [
-        MatCardModule,
-        MatToolbarModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatButtonModule,
-        MatSnackBarModule
-    ]
+  selector: 'app-product-form',
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCardModule,
+    MatButtonModule,
+    MatOptionModule,
+    MatToolbarModule
+  ],
+  templateUrl: './product-form.component.html',
+  styleUrls: ['./product-form.component.scss']
 })
 export class ProductFormComponent {
-  images: string[] = [];
-  form = new FormGroup({
-    id: new FormControl(''),
-    name: new FormControl('', [
-      Validators.required,
-      Validators.minLength(5),
-      Validators.maxLength(100),
-    ]),
-    description: new FormControl('', [
-      Validators.required,
-      Validators.minLength(5),
-      Validators.maxLength(100),
-    ]),
-    price: new FormControl(0, [
-      Validators.required,
-      Validators.min(1),
-      Validators.max(500),
-    ]),
-    image: new FormControl('', [Validators.required]),
-    status: new FormControl(''),
-    discounted: new FormControl('', [Validators.max(400)]),
-    discount: new FormControl(0),
-  });
+  form: FormGroup;
+  categories = ['Blusa', 'Bermuda', 'Calça'];
+  sizes = ['P', 'M', 'G', 'GG', '36', '38', '40', '42'];
+  colors = ['Preto', 'Branco', 'Azul', 'Vermelho', 'Verde'];
+  selectedImage = '';
+  allImages: string[] = [];
 
-  formUtils = inject(FormUtilsService);
-  private snackBar = inject(MatSnackBar);
-  private location = inject(Location);
-  private productsService = inject(ProductsService);
+  constructor(
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private location: Location,
+    private productService: ProductService
+  ) {
+    this.form = this.fb.group({
+      name: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      price: [0, [Validators.required, Validators.min(1)]],
+      category: ['', [Validators.required]],
+      size: [''],
+      color: [''],
+      image: ['', [Validators.required]],
+      status: [],
+      discount: []
+    });
 
-  constructor() {
     this.generateImages();
   }
 
-  private generateImages() {
-    for (let num = 1; num <= 14; num++) {
-      this.images.push(`${num}`);
+  generateImages() {
+    const folders = ['blusas', 'bermudas', 'calcas'];
+    for (let folder of folders) {
+      for (let i = 1; i <= 5; i++) {
+        this.allImages.push(`assets/images/${folder}/${i}.jpg`);
+      }
     }
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      this.productsService.create(this.form.value as Product).subscribe({
-        next: () => this.onSuccess(),
-        error: () => this.onError(),
+  onImageSelect(imagePath: string) {
+    this.selectedImage = imagePath;
+    this.form.patchValue({ image: imagePath });
+  }
+
+  async onSubmit() {
+    if (this.form.invalid) {
+      this.snackBar.open('Preencha todos os campos obrigatórios.', 'Fechar', {
+        duration: 3000
       });
-    } else {
-      this.formUtils.validateAllFormFields(this.form);
+      return;
     }
-  }
 
-  private onSuccess() {
-    this.snackBar.open('Product saved successfully!', '', { duration: 5000 });
-    this.form.reset();
-  }
+    const product: Product = this.form.value;
 
-  private onError() {
-    this.snackBar.open('Error saving product.', '', { duration: 10000 });
+    try {
+      await this.productService.create(product);
+      this.snackBar.open('Produto cadastrado com sucesso!', 'Fechar', {
+        duration: 3000
+      });
+      this.form.reset();
+      this.selectedImage = '';
+    } catch (error) {
+      console.error(error);
+      this.snackBar.open('Erro ao cadastrar o produto.', 'Fechar', {
+        duration: 3000
+      });
+    }
   }
 
   onCancel() {
