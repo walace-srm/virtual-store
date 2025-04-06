@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "produtos-504f3",
+    ":bucket:set-cors cors.json": "fast-food-38e89"
+  },
+  "targets": {},
+  "etags": {}
+}
