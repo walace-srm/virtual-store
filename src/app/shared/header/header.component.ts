@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,6 +9,7 @@ import { CartService } from './../../cart/cart.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { NgIf } from '@angular/common';
 import { UserService } from 'src/app/services/user/user.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-header',
@@ -23,14 +24,19 @@ import { UserService } from 'src/app/services/user/user.service';
     RouterLink
   ]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   private authService = inject(AuthService);
   private cartService = inject(CartService);
+  private webPageTitle = inject(Title);
   userService = inject(UserService);
 
   cartCount = this.cartService.cartCount;
   user = this.authService.user;
   displayName = this.authService.displayName;
+
+  ngOnInit(): void {
+    this.webPageTitle.setTitle('Loja virtual');
+  }
 
   logout() {
     this.authService.logout();

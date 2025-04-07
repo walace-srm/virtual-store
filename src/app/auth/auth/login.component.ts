@@ -1,12 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { Auth, signInWithEmailAndPassword, onAuthStateChanged } from '@angular/fire/auth';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     CommonModule,
     FormsModule,
+    RouterLink,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -23,17 +24,27 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  private authService = inject(AuthService);
-  private router = inject(Router);
-
   email = '';
   password = '';
   errorMessage = '';
 
+  constructor(
+    private router: Router,
+    private auth: Auth
+  ) {}
+
   login() {
-    this.authService.login(this.email, this.password).subscribe({
-      next: () => this.router.navigate(['/products']),
-      error: err => this.errorMessage = err.message
-    });
+    signInWithEmailAndPassword(this.auth, this.email, this.password)
+      .then(() => {
+        const unsubscribe = onAuthStateChanged(this.auth, (user) => {
+          if (user) {
+            this.router.navigate(['/products']);
+            unsubscribe();
+          }
+        });
+      })
+      .catch(error => {
+        this.errorMessage = 'E-mail ou senha inválidos';
+      });
   }
 }

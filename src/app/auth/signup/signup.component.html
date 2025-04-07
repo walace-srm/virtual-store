@@ -1,28 +1,30 @@
-<div class="auth-container">
-  <h2>Crie sua conta</h2>
-  <form [formGroup]="form" (ngSubmit)="signup()" class="form-content">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Nome</mat-label>
-      <input matInput formControlName="nome" />
-    </mat-form-field>
+<div class="auth-wrapper">
+  <div class="auth-container">
+    <h2>Crie sua conta</h2>
+    <form [formGroup]="form" (ngSubmit)="signup()" class="form-content">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email" />
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Senha</mat-label>
-      <input matInput type="password" formControlName="password" />
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" formControlName="password" />
+      </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-      Cadastrar
-    </button>
-  </form>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        Cadastrar
+      </button>
+    </form>
 
-  <p class="login-link">
-    Já tem uma conta?
-    <a routerLink="/login">Faça login</a>
-  </p>
+    <p class="login-link">
+      Já tem uma conta?
+      <a routerLink="/login">Faça login</a>
+    </p>
+  </div>
 </div>

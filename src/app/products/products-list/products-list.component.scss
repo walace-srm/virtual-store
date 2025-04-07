@@ -47,3 +47,23 @@ mat-card {
     white-space: nowrap;
   }
 }
+
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8); // fundo branco com transparência
+  backdrop-filter: blur(2px); // efeito de leve desfoque
+  z-index: 999;
+  gap: 16px;
+  text-align: center;
+  color: #3f51b5;
+  font-weight: 500;
+}
+

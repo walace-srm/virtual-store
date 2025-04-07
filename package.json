@@ -7,7 +7,7 @@
   "build": "ng build",
   "watch": "ng build --watch --configuration development",
   "test": "ng test",
-  "deploy": "ng build --base-href /virtual-store/ && npx angular-cli-ghpages --dir=dist/virtual-store"
+  "deploy": "ng build --configuration production --base-href=/virtual-store/ && npx angular-cli-ghpages --dir=dist/virtual-store"
   },
   "private": true,
   "dependencies": {

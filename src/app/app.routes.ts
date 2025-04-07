@@ -17,7 +17,8 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: 'products',
-    loadChildren: () => import('./products/products.routes').then(r => r.PRODUCT_ROUTES)
+    loadChildren: () => import('./products/products.routes').then(r => r.PRODUCT_ROUTES),
+    canActivate: [AuthGuard]
   },
   {
     path: 'cart',
