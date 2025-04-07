@@ -1,12 +1,13 @@
 {
-  "name": "angular-shop",
+  "name": "virtual-store",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve -o",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+  "ng": "ng",
+  "start": "ng serve",
+  "build": "ng build",
+  "watch": "ng build --watch --configuration development",
+  "test": "ng test",
+  "deploy": "ng build --base-href /virtual-store/ && npx angular-cli-ghpages --dir=dist/virtual-store"
   },
   "private": true,
   "dependencies": {
@@ -31,6 +32,7 @@
     "@angular/cli": "~19.2.5",
     "@angular/compiler-cli": "^19.2.4",
     "@types/jasmine": "~5.1.7",
+    "angular-cli-ghpages": "^2.0.3",
     "jasmine-core": "~5.6.0",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",
