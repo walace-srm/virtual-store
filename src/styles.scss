@@ -63,9 +63,8 @@ body {
   padding-top: 64px;
 }
 
-// html, body {
-//   height: 100%;
-//   margin: 0;
-//   padding: 0;
-//   overflow: hidden; // impede scroll desnecessário
-// }
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; // impõe controle de scroll
+}

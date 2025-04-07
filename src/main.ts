@@ -15,6 +15,8 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 
+import { MatSidenavModule } from '@angular/material/sidenav';
+
 registerLocaleData(localePt);
 
 const firebaseConfig = {
@@ -30,7 +32,7 @@ const firebaseConfig = {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(BrowserModule),
+    importProvidersFrom(BrowserModule, MatSidenavModule),
     provideNoopAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
     provideRouter(APP_ROUTES),

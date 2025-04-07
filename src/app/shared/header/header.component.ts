@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +25,8 @@ import { Title } from '@angular/platform-browser';
   ]
 })
 export class HeaderComponent implements OnInit {
+  @Output() menuClick = new EventEmitter<void>();
+
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private webPageTitle = inject(Title);
