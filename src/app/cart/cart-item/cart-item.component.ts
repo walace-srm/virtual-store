@@ -30,4 +30,19 @@ export class CartItemComponent {
   onRemove(): void {
     this.cartService.removeProduct(this.cartItem.product);
   }
+
+  increment(item: CartItem) {
+    if (item.quantity < 99) {
+      item.quantity++;
+      this.onQuantityChange(item.quantity, item);
+    }
+  }
+  
+  decrement(item: CartItem) {
+    if (item.quantity > 1) {
+      item.quantity--;
+      this.onQuantityChange(item.quantity, item);
+    }
+  }
+  
 }

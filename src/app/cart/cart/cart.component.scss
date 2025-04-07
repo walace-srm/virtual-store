@@ -1,16 +1,31 @@
 .cart-summary {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap; // permite quebrar quando necessário
+  gap: 2rem;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
 .cart-items {
-  width: 70%;
-  text-align: center;
-  margin: 50px;
+  flex: 1 1 60%;
+  min-width: 300px;
 }
 
 .cart-total {
-  width: 30%;
-  height: 100vh;
-  margin: 50px;
+  flex: 1 1 30%;
+  min-width: 280px;
+  align-self: flex-start;
+}
+
+/* Responsivo: empilha os elementos em telas pequenas */
+@media (max-width: 768px) {
+  .cart-summary {
+    flex-direction: column;
+  }
+
+  .cart-items,
+  .cart-total {
+    width: 100%;
+  }
 }

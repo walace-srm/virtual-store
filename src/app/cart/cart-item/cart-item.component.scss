@@ -1,14 +1,82 @@
 .parent {
-  width: 80%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+
+  > div {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .product-details {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    img {
+      height: 100px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  .quantity-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  
+    button {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+  
+    span {
+      width: 32px;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+  
+  .price-container {
+    text-align: right;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  // RESPONSIVO
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    > div {
+      width: 100%;
+      text-align: center;
+    }
+
+    .product-details {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .price-container,
+    .actions {
+      justify-content: center;
+      text-align: center;
+    }
+  }
 }
 
-.product-details {
-  display: flex;
-  gap: 8px;
-	align-items: center;
-	justify-content: center;
-}
