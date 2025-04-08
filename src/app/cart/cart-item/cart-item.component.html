@@ -10,9 +10,9 @@
   </div>
 
   <div class="quantity-buttons">
-    <button mat-mini-fab color="primary" (click)="decrement(cartItem)">-</button>
-    <span>{{ cartItem.quantity }}</span>
-    <button mat-mini-fab color="primary" (click)="increment(cartItem)">+</button>
+    <button mat-flat-button color="primary" class="qty-btn" (click)="decrement(cartItem)">-</button>
+      <span>{{ cartItem.quantity }}</span>
+    <button mat-flat-button color="primary" class="qty-btn" (click)="increment(cartItem)">+</button>
   </div>
 
   <div class="price-container">
