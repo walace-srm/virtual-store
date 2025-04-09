@@ -4,6 +4,7 @@ import { CartService } from '../cart.service';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-cart-total-summary',
@@ -13,5 +14,11 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class CartTotalSummaryComponent {
 
+  private router = inject(Router);
+
   cartService = inject(CartService);
+
+  goToCheckout() {
+    this.router.navigate(['/checkout']);
+  }
 }

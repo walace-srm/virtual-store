@@ -26,6 +26,11 @@ export const APP_ROUTES: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'checkout',
+    loadComponent: () => import('./cart/checkout/checkout.component').then(c => c.CheckoutComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: 'products'
   }

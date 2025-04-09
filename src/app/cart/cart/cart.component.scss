@@ -18,7 +18,7 @@
   align-self: flex-start;
 }
 
-/* Responsivo: empilha os elementos em telas pequenas */
+/* Mobile adjustments */
 @media (max-width: 768px) {
   .cart-summary {
     flex-direction: column;
