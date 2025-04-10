@@ -1,0 +1,21 @@
+<!-- <div class="pagamento-container">
+  <h2>Pagamento com Mercado Pago</h2>
+  <button (click)="iniciarPagamento()">Pagar com Checkout Pro</button>
+</div> -->
+
+<div class="pagamento-container">
+  <h2>Pagamento via Pix</h2>
+
+  <button (click)="pagarComPix()" [disabled]="carregando">
+    {{ carregando ? 'Gerando QR Code...' : 'Pagar com Pix' }}
+  </button>
+
+  <div *ngIf="qrCodeBase64" class="qrcode-container">
+    <p>Escaneie o QR Code com seu app bancário:</p>
+    <img [src]="'data:image/png;base64,' + qrCodeBase64" alt="QR Code Pix">
+  </div>
+
+  <p *ngIf="erro" class="erro">{{ erro }}</p>
+</div>
+
+

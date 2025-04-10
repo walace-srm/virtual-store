@@ -31,6 +31,11 @@ export const APP_ROUTES: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'pagamento',
+    loadComponent: () => import('./payment/payment/payment.component').then(c => c.PaymentComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: 'products'
   }

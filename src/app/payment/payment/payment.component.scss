@@ -1,0 +1,28 @@
+.pagamento-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #03a9f4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.qrcode-container {
+  margin-top: 2rem;
+}
+
+img {
+  width: 250px;
+  height: 250px;
+}
+
+.erro {
+  color: red;
+  margin-top: 1rem;
+}
