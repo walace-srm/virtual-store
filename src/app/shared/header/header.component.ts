@@ -4,12 +4,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators'; // <-- Import necessário
 
 import { CartService } from './../../cart/cart.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { NgIf } from '@angular/common';
 import { UserService } from 'src/app/services/user/user.service';
 import { Title } from '@angular/platform-browser';
+import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({
   selector: 'app-header',
@@ -18,10 +23,13 @@ import { Title } from '@angular/platform-browser';
   standalone: true,
   imports: [
     MatToolbarModule,
+    MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
-    RouterLink
+    RouterLink,
+    ReactiveFormsModule,
+    NgIf
   ]
 })
 export class HeaderComponent implements OnInit {
@@ -30,7 +38,10 @@ export class HeaderComponent implements OnInit {
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private webPageTitle = inject(Title);
+  private searchService = inject(SearchService);
   userService = inject(UserService);
+
+  searchControl = new FormControl('');
 
   cartCount = this.cartService.cartCount;
   user = this.authService.user;
@@ -38,6 +49,18 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.webPageTitle.setTitle('Loja virtual');
+
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(value => {
+        const term = value?.trim() ?? '';
+        if (term.length >= 2 || term.length === 0) {
+          this.searchService.setSearchTerm(term);
+        }
+      });
   }
 
   logout() {
@@ -47,5 +70,4 @@ export class HeaderComponent implements OnInit {
   get isAdmin() {
     return this.userService.isAdmin();
   }
-  
 }

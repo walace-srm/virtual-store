@@ -5,19 +5,19 @@
 
   <mat-card-content class="cart-content" [class.empty]="cartItems().length === 0">
     @if (cartItems().length > 0) {
-      @for (cartItem of cartItems(); track cartItem) {
-        <div class="cart-item-container">
-          <app-cart-item [item]="cartItem"></app-cart-item>
-        </div>
-      }
+    @for (cartItem of cartItems(); track cartItem) {
+    <div class="cart-item-container">
+      <app-cart-item [item]="cartItem"></app-cart-item>
+    </div>
+    }
     } @else {
-      <div class="empty-cart-state">
-        <mat-icon>remove_shopping_cart</mat-icon>
-        <p>Seu carrinho está vazio</p>
-        <button mat-flat-button color="primary" type="submit" class="full-width" [routerLink]="['/products']">
-          Ver produtos
-        </button>
-      </div>
+    <div class="empty-cart-state">
+      <mat-icon>remove_shopping_cart</mat-icon>
+      <p>Seu carrinho está vazio</p>
+      <button mat-flat-button color="primary" type="submit" class="full-width" [routerLink]="['/products']">
+        Ver produtos
+      </button>
+    </div>
     }
   </mat-card-content>
 </mat-card>

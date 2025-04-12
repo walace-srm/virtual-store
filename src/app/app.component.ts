@@ -12,42 +12,40 @@ import { MatListModule } from '@angular/material/list';
   selector: 'app-root',
   styles: [`
   .sidenav-container {
-    height: 100vh;
+    height: 90vh;
   }
 
-  .sidenav {
-    width: 250px;
-    background-color: #fafafa; // cor de fundo clara
-    padding-top: 16px;
-    ::ng-deep .mat-list-item {
-      border-radius: 8px;
-      margin: 4px 8px;
-      padding: 12px;
-      transition: background-color 0.3s ease;
+  mat-sidenav-content {
+    display: flex;
+    flex-direction: column;
+  }
 
-      &:hover {
-        background-color: #e0e0e0;
-      }
-      .mat-icon {
-        margin-right: 8px;
-      }
-    }
+  .main-content {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  mat-sidenav {
+    width: 250px;
   }
 
   `],
   template: `
     <mat-sidenav-container class="sidenav-container">
-      <mat-sidenav #drawer mode="over" [opened]="false" class="sidenav" (closedStart)="onClose()">
-        <mat-nav-list>
-          <a mat-list-item (click)="drawer.close()" routerLink="/products">Início</a>
-          <a mat-list-item (click)="drawer.close()" routerLink="/products">Produtos</a>
-        </mat-nav-list>
-      </mat-sidenav>
-        <mat-sidenav-content>
-          <app-header (menuClick)="drawer.toggle()"></app-header>
-          <router-outlet></router-outlet>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+    <mat-sidenav #drawer mode="over" [class.opened]="drawer.opened" [opened]="false" class="sidenav" (closedStart)="onClose()">
+      <mat-nav-list>
+        <a mat-list-item (click)="drawer.close()" routerLink="/products">Início</a>
+        <a mat-list-item (click)="drawer.close()" routerLink="/products">Produtos</a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <app-header (menuClick)="drawer.toggle()"></app-header>
+      <div class="main-content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
     `,
   imports: [
     RouterOutlet,

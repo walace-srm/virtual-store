@@ -1,4 +1,68 @@
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
 mat-toolbar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  &.main-header {
+    padding: 0 8px;
+    position: relative;
+    z-index: 9;
+  }
+
+  .branding {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    img {
+      height: 50px;
+      width: auto;
+    }
+  }
+
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .search-wrapper {
+    flex: 0 1 400px;
+    max-width: 400px;
+    width: 100%;
+  
+    input {
+      width: 100%;
+      padding: 6px 12px;
+      border-radius: 4px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .search-wrapper {
+      flex: 1 1 100%;
+      max-width: 100%;
+      margin: 8px 0;
+  
+      input {
+        font-size: 16px;
+        padding: 10px;
+      }
+    }
+  }
+  
+
   .notification-label {
     position: absolute;
     top: 0;
@@ -14,47 +78,20 @@ mat-toolbar {
     color: white;
     text-align: center;
   }
-  &.main-header {
-    padding: 0 8px;
-    position: relative;
-    box-shadow: 0 1px 8px rgba(0,0,0,.3);
-    z-index: 9;
-    .branding {
-      display: -webkit-box;
-      display: -moz-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      margin: auto 0;
-      line-height: 50px;
-      padding: 0 64px 0 16px;
-    }
+}
+
+@media (max-width: 600px) {
+  mat-toolbar .branding {
+    display: none;
+  }
+
+  mat-toolbar .button-add-products {
+    margin-left: 32px;
   }
 }
 
-.example-spacer {
-  flex: 1 1 auto;
-}
-
-:host {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  width: 100%;
-}
-
-mat-toolbar {
-  height: 64px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-img {
-  height: 70px;
-  width: 70px;
-  cursor: pointer;
+@media (max-width: 768px) {
+  mat-toolbar .button-add-products {
+    margin-left: 32px;
+  }
 }

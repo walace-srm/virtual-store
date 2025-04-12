@@ -1,42 +1,47 @@
 <mat-toolbar class="main-header" color="primary">
-  <div [routerLink]="['/products']">
-    <img src="./assets/images/logo_white.png">
+  <div class="branding" [routerLink]="['/products']">
+    <img src="./assets/images/logo_white.png" />
   </div>
+
   <button mat-icon-button (click)="menuClick.emit()">
     <mat-icon>menu</mat-icon>
   </button>
 
-  <div class="branding">Loja virtual</div>
+  <span class="example-spacer"></span>
+
+  <div class="search-wrapper">
+    <input matInput placeholder="Buscar produto..." [formControl]="searchControl" />
+  </div>
+
   <span class="example-spacer"></span>
 
   @if (isAdmin) {
-    <button mat-icon-button [routerLink]="['/products/new']">
-      <mat-icon>add</mat-icon>
-    </button>
+  <button class="button-add-products" mat-icon-button [routerLink]="['/products/new']">
+    <mat-icon>add</mat-icon>
+  </button>
   }
 
   <button mat-icon-button [routerLink]="['/cart']">
     <mat-icon>shopping_cart</mat-icon>
     @if (cartCount(); as count) {
-      <span class="notification-label">{{ count > 0 ? count : '' }}</span>
+    <span class="notification-label">{{ count > 0 ? count : '' }}</span>
     }
   </button>
 
-  <!-- Avatar e logout -->
   @if (user(); as u) {
-    <button mat-icon-button [matMenuTriggerFor]="userMenu">
-      <mat-icon>account_circle</mat-icon>
-    </button>
+  <button mat-icon-button [matMenuTriggerFor]="userMenu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
 
-    <mat-menu #userMenu="matMenu">
-      <button mat-menu-item disabled>
-        <mat-icon>person</mat-icon>
-        <span>{{ displayName() }}</span>
-      </button>
-      <button mat-menu-item (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        <span>Sair</span>
-      </button>
-    </mat-menu>
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item disabled>
+      <mat-icon>person</mat-icon>
+      <span>{{ displayName() }}</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Sair</span>
+    </button>
+  </mat-menu>
   }
 </mat-toolbar>

@@ -16,13 +16,11 @@
         <span class="total">Total</span>
         <span class="total">{{
           cartService.cartTotal() | currency : 'BRL'
-        }}</span>
+          }}</span>
       </div>
     </div>
   </mat-card-content>
-  <mat-card-actions class="checkout"
-    ><button mat-raised-button color="primary" (click)="goToCheckout()">
+  <mat-card-actions class="checkout"><button mat-raised-button color="primary" (click)="goToCheckout()">
       Confira
-    </button></mat-card-actions
-  >
+    </button></mat-card-actions>
 </mat-card>

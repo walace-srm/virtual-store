@@ -68,3 +68,20 @@ html, body {
   margin: 0;
   overflow: hidden; // impõe controle de scroll
 }
+
+::ng-deep .mat-drawer-backdrop {
+  display: none !important;
+}
+
+mat-sidenav {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: none;
+}
+
+mat-sidenav.opened {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}

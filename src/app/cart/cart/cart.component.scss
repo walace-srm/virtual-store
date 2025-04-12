@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   gap: 2rem;
   padding: 2rem;
+  padding-top: 16px;
   box-sizing: border-box;
 }
 
@@ -16,6 +17,13 @@
   flex: 1 1 30%;
   min-width: 280px;
   align-self: flex-start;
+}
+
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #e1e1e1;
 }
 
 /* Mobile adjustments */
