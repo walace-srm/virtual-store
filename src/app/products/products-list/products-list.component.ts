@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { AfterViewInit, Component, inject, OnInit, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,7 @@ import { CartService } from './../../cart/cart.service';
 import { ProductService } from 'src/app/services/products/producs.service';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { SearchService } from 'src/app/services/search/search.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-products-list',
@@ -21,6 +22,8 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
   private cartService = inject(CartService);
   private productService = inject(ProductService);
   private searchService = inject(SearchService);
+  private route = inject(ActivatedRoute);
+  private changeDetector = inject(ChangeDetectorRef);
 
   products: any;
   produtosFiltrados: Product[] = [];
@@ -28,7 +31,7 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.listenSearch();
-    this.getAll();
+    this.filterProductByCategory();
   }
 
   ngAfterViewInit(): void {
@@ -58,6 +61,26 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
   
   addProductToCart(product: Product): void {
     this.cartService.addProduct(product);
+  }
+
+  filterProductByCategory() {
+    this.route.paramMap.subscribe(params => {
+      const category = params.get('category');
+      if (category) {
+        this.loadProductsByCategory(category);
+      } else {
+        this.getAll();
+      }
+    });
+  }
+
+  loadProductsByCategory(category: string) {
+    this.productService.getProductsByCategory(category).subscribe((products) => {
+      this.products = products;
+      this.produtosFiltrados = products;
+      this.loading.set(false);
+      this.changeDetector.detectChanges();
+    });
   }
 
   trackByProduct(index: number, product: Product) {

@@ -3,7 +3,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -39,6 +39,7 @@ export class HeaderComponent implements OnInit {
   private cartService = inject(CartService);
   private webPageTitle = inject(Title);
   private searchService = inject(SearchService);
+  private router = inject(Router);
   userService = inject(UserService);
 
   searchControl = new FormControl('');
@@ -46,6 +47,10 @@ export class HeaderComponent implements OnInit {
   cartCount = this.cartService.cartCount;
   user = this.authService.user;
   displayName = this.authService.displayName;
+
+  get showSearch(): boolean {
+    return this.router.url === '/products';
+  }
 
   ngOnInit(): void {
     this.webPageTitle.setTitle('Loja virtual');

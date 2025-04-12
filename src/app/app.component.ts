@@ -1,57 +1,27 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 import { HeaderComponent } from './shared/header/header.component';
-import { AuthService } from './services/auth/auth.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatListModule } from '@angular/material/list';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
-  styles: [`
-  .sidenav-container {
-    height: 90vh;
-  }
-
-  mat-sidenav-content {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .main-content {
-    flex: 1;
-    overflow-y: auto;
-  }
-
-  mat-sidenav {
-    width: 250px;
-  }
-
-  `],
-  template: `
-    <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer mode="over" [class.opened]="drawer.opened" [opened]="false" class="sidenav" (closedStart)="onClose()">
-      <mat-nav-list>
-        <a mat-list-item (click)="drawer.close()" routerLink="/products">Início</a>
-        <a mat-list-item (click)="drawer.close()" routerLink="/products">Produtos</a>
-      </mat-nav-list>
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-      <app-header (menuClick)="drawer.toggle()"></app-header>
-      <div class="main-content">
-        <router-outlet></router-outlet>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-    `,
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
   imports: [
     RouterOutlet,
+    CommonModule,
     HeaderComponent,
     MatSidenavModule,
+    MatExpansionModule,
     MatListModule,
+    MatIconModule,
     RouterLink
    ]
 })
@@ -61,9 +31,15 @@ export class AppComponent {
   mobileQuery!: MediaQueryList;
   private _mobileQueryListener: () => void;
 
+  categories = [
+    { label: 'Blusas', path: 'blusas' },
+    { label: 'Calças', path: 'calcas' },
+    { label: 'Bermudas', path: 'bermudas' },
+    { label: 'Vestidos', path: 'vestidos' },
+    { label: 'Acessórios', path: 'acessorios' }
+  ];
+
   constructor(
-    private authService: AuthService,
-    private router: Router,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher
   ) {

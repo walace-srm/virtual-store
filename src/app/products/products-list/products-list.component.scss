@@ -2,7 +2,6 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
-  //margin-top: 80px;
 }
 
 mat-card {
@@ -59,11 +58,33 @@ mat-card {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.8); // fundo branco com transparência
-  backdrop-filter: blur(2px); // efeito de leve desfoque
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(2px);
   z-index: 999;
   gap: 16px;
   text-align: center;
   color: #3f51b5;
   font-weight: 500;
 }
+
+.empty-container {
+  display: flex;
+  height: 70vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  text-align: center;
+  color: #888;
+
+  .empty-icon {
+    font-size: 64px;
+    margin-bottom: 1rem;
+    color: #ccc;
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
+}
+

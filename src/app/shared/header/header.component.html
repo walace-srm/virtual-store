@@ -9,7 +9,7 @@
 
   <span class="example-spacer"></span>
 
-  <div class="search-wrapper">
+  <div class="search-wrapper" *ngIf="showSearch">
     <input matInput placeholder="Buscar produto..." [formControl]="searchControl" />
   </div>
 

@@ -6,42 +6,52 @@
   </div>
 </ng-container>
 
-<!-- Lista de produtos -->
+<!-- Lista de produtos ou Empty State -->
 <ng-template #content>
-  <div class="parent">
-    @for (product of produtosFiltrados; track product) {
-      <mat-card>
-        <div class="media-grid">
-          <figure class="product-figure">
-            @if (product.status === 'sale') {
-              <div class="product-badge">
-                <span>Sale</span>
-              </div>
-            }
-            <img [src]="product.image" height="245px" alt="{{ product.name }}" />
-          </figure>
-        </div>
-
-        <mat-card-content class="pa-1">
-          <div class="product-details">
-            <div>
-              <p class="ma-0">{{ product.name }}</p>
-              <p class="ma-0 pa-0 text-md">{{ product.description }}</p>
-            </div>
-
-            <div class="mat-text-primary text-xl">
-              @if (product.discounted === 'discounted') {
-                <span class="strikethrough mat-text-muted text-sm">R$ {{ product.discount }}</span>
+  <ng-container *ngIf="produtosFiltrados.length > 0; else emptyState">
+    <div class="parent">
+      @for (product of produtosFiltrados; track product) {
+        <mat-card>
+          <div class="media-grid">
+            <figure class="product-figure">
+              @if (product.status === 'sale') {
+                <div class="product-badge">
+                  <span>Sale</span>
+                </div>
               }
-              <span>{{ product.price | currency: 'BRL' }}</span>
-            </div>
-
-            <button mat-icon-button color="accent" (click)="addProductToCart(product)">
-              <mat-icon>add_shopping_cart</mat-icon>
-            </button>
+              <img [src]="product.image" height="245px" alt="{{ product.name }}" />
+            </figure>
           </div>
-        </mat-card-content>
-      </mat-card>
-    }
+
+          <mat-card-content class="pa-1">
+            <div class="product-details">
+              <div>
+                <p class="ma-0">{{ product.name }}</p>
+                <p class="ma-0 pa-0 text-md">{{ product.description }}</p>
+              </div>
+
+              <div class="mat-text-primary text-xl">
+                @if (product.discounted === 'discounted') {
+                  <span class="strikethrough mat-text-muted text-sm">R$ {{ product.discount }}</span>
+                }
+                <span>{{ product.price | currency: 'BRL' }}</span>
+              </div>
+
+              <button mat-icon-button color="accent" (click)="addProductToCart(product)">
+                <mat-icon>add_shopping_cart</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </ng-container>
+</ng-template>
+
+<!-- EMPTY STATE -->
+<ng-template #emptyState>
+  <div class="empty-container">
+    <mat-icon class="empty-icon">inventory_2</mat-icon>
+    <p>Nenhum produto encontrado nesta categoria.</p>
   </div>
 </ng-template>

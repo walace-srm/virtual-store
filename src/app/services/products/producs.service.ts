@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, setDoc, updateDoc, deleteDoc, getDoc, addDoc, getFirestore } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, setDoc, updateDoc, deleteDoc, getDoc, addDoc, getFirestore, query, where } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes, getDownloadURL, deleteObject } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { Product } from 'src/app/products/product';
@@ -8,8 +8,6 @@ import { Product } from 'src/app/products/product';
   providedIn: 'root',
 })
 export class ProductService {
-  private collectionRef = collection(this.firestore, 'products');
-
   constructor(
     private firestore: Firestore,
     private storage: Storage
@@ -51,5 +49,11 @@ export class ProductService {
   async delete(id: string): Promise<void> {
     const docRef = doc(this.firestore, `products/${id}`);
     await deleteDoc(docRef);
+  }
+
+  getProductsByCategory(category: string): Observable<Product[]> {
+    const ref = collection(this.firestore, 'products');
+    const q = query(ref, where('category', '==', category));
+    return collectionData(q, { idField: 'id' }) as Observable<Product[]>;
   }
 }
