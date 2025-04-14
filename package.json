@@ -19,7 +19,7 @@
     "@angular/fire": "^19.0.0",
     "@angular/forms": "^19.2.4",
     "@angular/material": "^19.2.7",
-    "@angular/platform-browser": "^19.2.4",
+    "@angular/platform-browser": "^19.2.6",
     "@angular/platform-browser-dynamic": "^19.2.4",
     "@angular/router": "^19.2.4",
     "firebase": "^11.6.0",
