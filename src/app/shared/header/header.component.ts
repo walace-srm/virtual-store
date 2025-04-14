@@ -13,7 +13,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'; // <-- Impo
 import { CartService } from './../../cart/cart.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { Title } from '@angular/platform-browser';
 import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({
@@ -37,13 +36,12 @@ export class HeaderComponent implements OnInit {
 
   private authService = inject(AuthService);
   private cartService = inject(CartService);
-  private webPageTitle = inject(Title);
+
   private searchService = inject(SearchService);
   private router = inject(Router);
-  userService = inject(UserService);
+  private userService = inject(UserService);
 
   searchControl = new FormControl('');
-
   cartCount = this.cartService.cartCount;
   user = this.authService.user;
   displayName = this.authService.displayName;
@@ -53,8 +51,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.webPageTitle.setTitle('Loja virtual');
-
     this.searchControl.valueChanges
       .pipe(
         debounceTime(300),

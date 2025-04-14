@@ -1,10 +1,30 @@
 .sidenav-container {
-  height: 90vh;
-  margin-top: 16px;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 
 mat-sidenav {
   width: 250px;
+  z-index: 1100;
+}
+
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+}
+
+.main-content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-bottom: 68px;
 }
 
 .icon-position {
@@ -17,6 +37,12 @@ mat-sidenav {
   position: relative;
   bottom: 5px;
   margin-right: 6px;
+}
+
+.menu-title {
+  margin-left: 16px;
+  margin-top: 16px;
+  font-size: 1.3rem;
 }
 
 @media screen and (max-width: 768px) {

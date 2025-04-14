@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -40,12 +41,14 @@ export class AppComponent {
   ];
 
   constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher
+    private webPageTitle: Title,
+    private changeDetectorRef: ChangeDetectorRef,
+    private media: MediaMatcher
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    this.webPageTitle.setTitle('Loja virtual');
   }
 
   get isHandset(): boolean {

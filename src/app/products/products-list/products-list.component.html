@@ -50,7 +50,7 @@
 
 <!-- EMPTY STATE -->
 <ng-template #emptyState>
-  <div class="empty-container">
+  <div class="empty-container" *ngIf="!loading()">
     <mat-icon class="empty-icon">inventory_2</mat-icon>
     <p>Nenhum produto encontrado nesta categoria.</p>
   </div>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Location, NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Product } from '../product';
 import { ProductService } from 'src/app/services/products/producs.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-form',
@@ -41,7 +42,7 @@ export class ProductFormComponent {
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private location: Location,
+    private router: Router,
     private productService: ProductService
   ) {
     this.form = this.fb.group({
@@ -99,6 +100,6 @@ export class ProductFormComponent {
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['/products'])
   }
 }
