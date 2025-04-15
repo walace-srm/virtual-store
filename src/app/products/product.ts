@@ -7,6 +7,7 @@ export interface Product {
   sizes: string[]; // ex: ["P", "M", "G", "GG"]
   colors: string[]; // ex: ["Preto", "Branco"]
   image: string[]; // múltiplas imagens
+  images: string[];
   featured: boolean; // produto em destaque na home
   user?: string; // UID do usuário que cadastrou
 

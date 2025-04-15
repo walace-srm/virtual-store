@@ -1,52 +1,48 @@
-<!-- Spinner enquanto carrega -->
 <ng-container *ngIf="loading(); else content">
   <div class="loading-container">
     <mat-spinner></mat-spinner>
     <p>Carregando produtos...</p>
   </div>
 </ng-container>
-
-<!-- Lista de produtos ou Empty State -->
 <ng-template #content>
   <ng-container *ngIf="produtosFiltrados.length > 0; else emptyState">
     <div class="parent">
-      @for (product of produtosFiltrados; track product) {
-        <mat-card>
-          <div class="media-grid">
-            <figure class="product-figure">
-              @if (product.status === 'sale') {
-                <div class="product-badge">
-                  <span>Sale</span>
-                </div>
-              }
-              <img [src]="product.image" height="245px" alt="{{ product.name }}" />
-            </figure>
-          </div>
+      <mat-card *ngFor="let product of produtosFiltrados; trackByProduct: trackProduct"
+        [routerLink]="['/products', product.id]">
+        <div class="media-grid">
+          <figure class="product-figure">
+            <div *ngIf="product.status === 'sale'" class="product-badge">
+              <span>Sale</span>
+            </div>
+            <img [src]="product.images?.[0]" height="245px" alt="{{ product.name }}" />
+          </figure>
+        </div>
 
-          <mat-card-content class="pa-1">
-            <div class="product-details">
-              <div>
-                <p class="ma-0">{{ product.name }}</p>
-                <p class="ma-0 pa-0 text-md">{{ product.description }}</p>
-              </div>
+        <mat-card-content class="pa-1">
+          <div class="product-details">
+            <div>
+              <p class="ma-0">{{ product.name }}</p>
+              <p class="ma-0 pa-0 text-md">{{ product.description }}</p>
+            </div>
+            <div class="mat-text-primary text-xl">
 
-              <div class="mat-text-primary text-xl">
-                @if (product.discounted === 'discounted') {
-                  <span class="strikethrough mat-text-muted text-sm">R$ {{ product.discount }}</span>
-                }
-                <span>{{ product.price | currency: 'BRL' }}</span>
-              </div>
-
-              <button mat-icon-button color="accent" (click)="addProductToCart(product)">
+              <span *ngIf="product.discounted === 'discounted'" class="strikethrough mat-text-muted text-sm">R$ {{
+                product.discount }}</span>
+              <span>{{ product.price | currency: 'BRL' }}</span>
+            </div>
+            <div class="add-to-cart-btn">
+              <button mat-icon-button color="accent" (click)="addProductToCart(product); $event.stopPropagation()"
+                matTooltip="Adicionar ao carrinho">
                 <mat-icon>add_shopping_cart</mat-icon>
               </button>
             </div>
-          </mat-card-content>
-        </mat-card>
-      }
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
   </ng-container>
 </ng-template>
+
 
 <!-- EMPTY STATE -->
 <ng-template #emptyState>

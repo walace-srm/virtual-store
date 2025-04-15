@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, setDoc, updateDoc, deleteDoc, getDoc, addDoc, getFirestore, query, where } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, setDoc, updateDoc, deleteDoc, getDoc, addDoc, getFirestore, query, where, docData } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes, getDownloadURL, deleteObject } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { Product } from 'src/app/products/product';
@@ -55,5 +55,10 @@ export class ProductService {
     const ref = collection(this.firestore, 'products');
     const q = query(ref, where('category', '==', category));
     return collectionData(q, { idField: 'id' }) as Observable<Product[]>;
+  }
+
+  getProductById(id: string): Observable<Product> {
+    const productDocRef = doc(this.firestore, `products/${id}`);
+    return docData(productDocRef, { idField: 'id' }) as Observable<Product>;
   }
 }

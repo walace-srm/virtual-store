@@ -26,7 +26,7 @@ export class CartService {
       if (user) {
         this.loadCartFromFirebase();
       } else {
-        this.clearLocalCart(); // também limpa o estado local
+        this.clearLocalCart();
       }
     });
   }
@@ -79,7 +79,7 @@ export class CartService {
 
   clearLocalCart() {
     this.cartItems.set([]);
-    this.cartSubscription?.unsubscribe(); // 👈 para de escutar Firebase
+    this.cartSubscription?.unsubscribe();
   }
 
   cartCount = computed(() =>

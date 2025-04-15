@@ -7,6 +7,7 @@
 mat-card {
   width: 300px;
   margin: 15px;
+  cursor: pointer;
 }
 
 .product-details {
@@ -87,4 +88,47 @@ mat-card {
     font-size: 1.2rem;
   }
 }
+
+mat-card {
+  position: relative;
+  transition: transform 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.01);
+
+    .add-to-cart-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// Para desktops (hover ativado)
+.add-to-cart-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 10;
+}
+
+// Aparecer no hover
+mat-card:hover .add-to-cart-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+// Para dispositivos móveis (sem hover)
+@media (hover: none) and (pointer: coarse) {
+  .add-to-cart-btn {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+}
+
+
 

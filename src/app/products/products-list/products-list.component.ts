@@ -1,5 +1,5 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,33 +8,38 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Product } from '../product';
 import { CartService } from './../../cart/cart.service';
 import { ProductService } from 'src/app/services/products/producs.service';
-import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { SearchService } from 'src/app/services/search/search.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.scss'],
-  imports: [MatCardModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule, CommonModule]
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ]
 })
-export class ProductsListComponent implements OnInit, AfterViewInit {
+export class ProductsListComponent implements OnInit {
   private cartService = inject(CartService);
   private productService = inject(ProductService);
   private searchService = inject(SearchService);
   private route = inject(ActivatedRoute);
   private changeDetector = inject(ChangeDetectorRef);
+  private snackBar = inject(MatSnackBar);
 
+  loading = signal(false);
   products: any;
   produtosFiltrados: Product[] = [];
-  loading = signal(false);
 
   ngOnInit(): void {
     this.listenSearch();
     this.filterProductByCategory();
-  }
-
-  ngAfterViewInit(): void {
   }
 
   getAll() {
@@ -58,9 +63,9 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
     });
   }
   
-  
   addProductToCart(product: Product): void {
     this.cartService.addProduct(product);
+    this.snackBar.open(`${product.name} adicionado ao carrinho!`, 'Fechar', { duration: 3000 });
   }
 
   filterProductByCategory() {

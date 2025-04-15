@@ -1,10 +1,10 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { CartItem } from '../cart-item';
 import { CartService } from '../cart.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
-import { CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -12,15 +12,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     selector: 'app-cart-item',
     templateUrl: './cart-item.component.html',
     styleUrls: ['./cart-item.component.scss'],
-    imports: [MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatIconModule, CurrencyPipe]
+    imports: [CommonModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatIconModule, CurrencyPipe]
 })
-export class CartItemComponent {
+export class CartItemComponent implements OnInit {
 
   @Input({ required: true, alias: 'item' }) cartItem !: CartItem;
 
   quantityOptions = [1, 2, 3, 4, 5];
+  imageSrc!: string;
 
   private cartService = inject(CartService);
+
+  ngOnInit(): void {
+    this.imageSrc = this.cartItem.product.images?.[0] || 'assets/images/placeholder.png';
+  }
 
   onQuantityChange(quantity: number, cartItem: CartItem) {
     cartItem.quantity = quantity;
@@ -44,5 +49,8 @@ export class CartItemComponent {
       this.onQuantityChange(item.quantity, item);
     }
   }
-  
+
+  fallbackImage(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/images/placeholder.png';
+  }
 }

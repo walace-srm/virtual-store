@@ -3,7 +3,6 @@
     <h1 class="form-title">Cadastrar Produto</h1>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
-
       <mat-form-field appearance="outline" class="full">
         <mat-label>Nome do Produto</mat-label>
         <input matInput formControlName="name" />
@@ -38,27 +37,32 @@
         <input matInput formControlName="status" />
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full">
-        <mat-label>Imagem</mat-label>
-        <mat-select formControlName="image">
-          <mat-option *ngFor="let img of allImages" [value]="img">
+      <!-- Seção de seleção de imagens -->
+      <div class="full">
+        <p class="mat-subheading-2">Selecione as imagens do produto:</p>
+        <mat-selection-list formControlName="images">
+          <mat-list-option class="mat-list-option" *ngFor="let img of allImages" [value]="img">
             <div class="image-option">
-              <img [src]="img" />
+              <img [src]="img" alt="imagem" />
               <span>{{ img.split('/').pop() }}</span>
             </div>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <div class="image-preview full" *ngIf="form.get('image')?.value">
-        <img [src]="form.get('image')?.value" alt="Preview da imagem" />
+          </mat-list-option>
+        </mat-selection-list>
       </div>
 
+      <!-- Preview das imagens selecionadas -->
+      <div class="image-preview full" *ngIf="images.length > 0">
+        <h4>Imagens selecionadas:</h4>
+        <div class="preview-list">
+          <img *ngFor="let imgCtrl of images.controls" [src]="imgCtrl.value" />
+        </div>
+      </div>
+
+      <!-- Botões -->
       <div class="button-group full">
         <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Salvar</button>
         <button mat-stroked-button color="warn" type="button" (click)="onCancel()">Cancelar</button>
       </div>
-
     </form>
   </div>
 </div>

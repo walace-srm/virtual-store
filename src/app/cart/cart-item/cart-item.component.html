@@ -1,6 +1,12 @@
 <div class="parent">
   <div class="product-details">
-    <img [src]="cartItem.product.image" height="100px" alt="{{ cartItem.product.name }}" />
+    <img
+      *ngIf="cartItem.product.images?.length"
+      [src]="cartItem.product.images[0]"
+      (error)="fallbackImage($event)"
+      height="100px"
+      alt="{{ cartItem.product.name }}"
+    />
     <div>
       <p class="ma-0">{{ cartItem.product.name }}</p>
       <p class="ma-0 pa-0 text-md" style="padding-top: 5px">
@@ -11,7 +17,7 @@
 
   <div class="quantity-buttons">
     <button mat-flat-button color="primary" class="qty-btn" (click)="decrement(cartItem)">-</button>
-      <span>{{ cartItem.quantity }}</span>
+    <span>{{ cartItem.quantity }}</span>
     <button mat-flat-button color="primary" class="qty-btn" (click)="increment(cartItem)">+</button>
   </div>
 

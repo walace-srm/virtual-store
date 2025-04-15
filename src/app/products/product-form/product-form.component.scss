@@ -43,22 +43,22 @@
 }
 
 .image-option img {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: auto;
+  border-radius: 6px;
   object-fit: cover;
+}
+
+.preview-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.preview-list img {
+  width: 100px;
   border-radius: 4px;
-}
-
-.image-preview {
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-.image-preview img {
-  width: 100%;
-  max-width: 250px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc;
 }
 
 .button-group {
@@ -66,6 +66,10 @@
   justify-content: space-between;
   gap: 12px;
   margin-top: 8px;
+}
+
+mat-list-option {
+  margin-bottom: 6px;
 }
 
 @media (max-width: 700px) {

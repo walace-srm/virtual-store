@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,7 @@ import { Product } from '../product';
 import { ProductService } from 'src/app/services/products/producs.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-product-form',
@@ -26,7 +27,8 @@ import { Router } from '@angular/router';
     MatCardModule,
     MatButtonModule,
     MatOptionModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatListModule
   ],
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss']
@@ -38,6 +40,7 @@ export class ProductFormComponent {
   colors = ['Preto', 'Branco', 'Azul', 'Vermelho', 'Verde'];
   selectedImage = '';
   allImages: string[] = [];
+  selectedImages: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -52,7 +55,8 @@ export class ProductFormComponent {
       category: ['', [Validators.required]],
       size: [''],
       color: [''],
-      image: ['', [Validators.required]],
+      //image: ['', [Validators.required]],
+      images: [],
       status: [],
       discount: []
     });
@@ -70,8 +74,31 @@ export class ProductFormComponent {
   }
 
   onImageSelect(imagePath: string) {
-    this.selectedImage = imagePath;
-    this.form.patchValue({ image: imagePath });
+    if (!this.selectedImages.includes(imagePath)) {
+      this.selectedImages.push(imagePath);
+      this.form.patchValue({ images: this.selectedImages });
+    }
+  }
+
+  removeImage(imagePath: string) {
+    this.selectedImages = this.selectedImages.filter(img => img !== imagePath);
+    this.form.patchValue({ images: this.selectedImages });
+  }
+
+  get images(): FormArray {
+    return this.form.get('images') as FormArray;
+  }
+
+  onImageToggle(image: string, event: any) {
+    const checked = event.checked;
+    if (checked) {
+      this.images.push(this.fb.control(image));
+    } else {
+      const index = this.images.controls.findIndex(ctrl => ctrl.value === image);
+      if (index !== -1) {
+        this.images.removeAt(index);
+      }
+    }
   }
 
   async onSubmit() {
