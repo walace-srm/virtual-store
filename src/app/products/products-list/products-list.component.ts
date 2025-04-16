@@ -9,7 +9,7 @@ import { Product } from '../product';
 import { CartService } from './../../cart/cart.service';
 import { ProductService } from 'src/app/services/products/producs.service';
 import { SearchService } from 'src/app/services/search/search.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -30,6 +30,7 @@ export class ProductsListComponent implements OnInit {
   private productService = inject(ProductService);
   private searchService = inject(SearchService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private changeDetector = inject(ChangeDetectorRef);
   private snackBar = inject(MatSnackBar);
 
@@ -62,10 +63,16 @@ export class ProductsListComponent implements OnInit {
       }
     });
   }
-  
+
   addProductToCart(product: Product): void {
     this.cartService.addProduct(product);
-    this.snackBar.open(`${product.name} adicionado ao carrinho!`, 'Fechar', { duration: 3000 });
+    this.snackBar.open(`${product.name} adicionado ao carrinho!`, 'Ir para o carrinho', {
+      duration: 10000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center'
+    }).onAction().subscribe(() => {
+      this.router.navigate(['/cart']);
+    });
   }
 
   filterProductByCategory() {

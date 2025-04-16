@@ -6,6 +6,7 @@ import { CartService } from '../cart.service';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-cart-list',
@@ -22,6 +23,11 @@ import { MatButtonModule } from '@angular/material/button';
 export class CartListComponent {
 
   private cartService = inject(CartService);
+  private location = inject(Location)
 
   cartItems = this.cartService.cartItems;
+
+  goBack(): void {
+    this.location.back();
+  }
 }

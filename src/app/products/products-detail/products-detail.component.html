@@ -17,7 +17,7 @@
         <span class="current-price">{{ product.price | currency: 'BRL' }}</span>
       </div>
 
-      <button mat-raised-button color="primary" (click)="addToCart()">
+      <button mat-raised-button color="primary" (click)="addToCart(product)">
         <mat-icon>add_shopping_cart</mat-icon>
         Adicionar ao carrinho
       </button>

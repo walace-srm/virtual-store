@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/products/producs.service';
 import { Product } from '../product';
 import { CartService } from 'src/app/cart/cart.service';
@@ -27,7 +27,8 @@ export class ProductsDetailComponent {
   private productService = inject(ProductService);
   private cartService = inject(CartService);
   private snackBar = inject(MatSnackBar);
-  private location = inject(Location)
+  private location = inject(Location);
+  private router = inject(Router);
 
   product: Product | null = null;
   isLoading = true;
@@ -53,11 +54,15 @@ export class ProductsDetailComponent {
     this.selectedImage = imageUrl;
   }
 
-  addToCart() {
-    if (this.product) {
-      this.cartService.addProduct(this.product);
-      this.snackBar.open(`${this.product.name} adicionado ao carrinho!`, 'Fechar', { duration: 3000 });
-    }
+  addToCart(product: Product): void {
+    this.cartService.addProduct(product);
+    this.snackBar.open(`${product.name} adicionado ao carrinho!`, 'Ir para o carrinho', {
+      duration: 10000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center'
+    }).onAction().subscribe(() => {
+      this.router.navigate(['/cart']);
+    });
   }
 
   goBack(): void {
