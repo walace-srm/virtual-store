@@ -1,8 +1,15 @@
+<div #titleTrigger style="height: 1px;"></div>
 <div class="detail-container" *ngIf="!isLoading && product; else loading">
   <mat-card class="detail-card">
-    <button mat-icon-button (click)="goBack()">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
+    <div class="container-title" [class.scrolled]="isScrolled">
+      <button mat-icon-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div *ngIf="!isScrolled" class="title-text">
+        <h2>Detalhes do produto</h2>
+      </div>
+    </div>          
+    <!-- <div style="height: 2000px;"></div> -->
     <div class="image-section">
       <img [src]="selectedImage" alt="{{ product.name }}" class="main-image"/>
     </div>

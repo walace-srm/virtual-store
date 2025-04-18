@@ -7,7 +7,7 @@
 <ng-template #content>
   <ng-container *ngIf="produtosFiltrados.length > 0; else emptyState">
     <div class="parent">
-      <mat-card *ngFor="let product of produtosFiltrados; trackByProduct: trackProduct"
+      <mat-card *ngFor="let product of produtosFiltrados; trackBy: trackByProduct"
         [routerLink]="['/products', product.id]">
         <div class="media-grid">
           <figure class="product-figure">

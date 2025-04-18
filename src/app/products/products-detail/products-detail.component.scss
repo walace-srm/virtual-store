@@ -4,6 +4,51 @@
   padding: 20px;
 }
 
+.container-title {
+  position: sticky;
+  top: 40px;
+  background-color: white;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+  //border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.4s ease-in-out, border-bottom 0.4s ease-in-out;
+
+  // O botão não será afetado pela transição
+  button {
+    z-index: 11;
+    border: none;
+    background: none;
+  }
+
+  // Parte do título que vai sumir
+  .title-text {
+    flex: 1;
+    text-align: center;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+    }
+  }
+
+  // Quando a página rolar, o título vai desaparecer suavemente
+  &.scrolled {
+    .title-text {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    // Adicionar transição para a borda e fundo
+    background-color: transparent;
+    border-bottom: none;
+  }
+}
+
 .detail-card {
   display: flex;
   flex-direction: column;
@@ -13,6 +58,7 @@
 
 .image-section {
   text-align: center;
+  margin-top: 28px;
 }
 
 .main-image {

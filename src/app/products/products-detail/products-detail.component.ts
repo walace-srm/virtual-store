@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/products/producs.service';
 import { Product } from '../product';
@@ -22,7 +22,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatButtonModule
   ],
 })
-export class ProductsDetailComponent {
+export class ProductsDetailComponent implements OnInit, AfterViewInit {
+  @ViewChild('titleTrigger', { static: true }) titleTrigger!: ElementRef;
   private route = inject(ActivatedRoute);
   private productService = inject(ProductService);
   private cartService = inject(CartService);
@@ -33,6 +34,13 @@ export class ProductsDetailComponent {
   product: Product | null = null;
   isLoading = true;
   selectedImage: string = '';
+  isScrolled = false;
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    const offset = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    this.isScrolled = offset > 64; // você pode ajustar esse valor conforme o layout
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -46,6 +54,19 @@ export class ProductsDetailComponent {
           this.selectedImage = this.product.images[0];
         }
       });
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.titleTrigger?.nativeElement) {
+      const observer = new IntersectionObserver(([entry]) => {
+        this.isScrolled = !entry.isIntersecting;
+      }, {
+        root: null,
+        threshold: 0
+      });
+  
+      observer.observe(this.titleTrigger.nativeElement);
     }
   }
 
